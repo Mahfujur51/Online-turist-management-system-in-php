@@ -9,17 +9,18 @@ header('location:index.php');
 else{
 if(isset($_POST['submit6']))
 	{
-$name=$_POST['name'];
-$mobileno=$_POST['mobileno'];
+$fullname=$_POST['fullname'];
+$mobile=$_POST['mobile'];
 $email=$_SESSION['login'];
 
-$sql="update tblusers set FullName=:name,MobileNumber=:mobileno where EmailId=:email";
-$query = $dbh->prepare($sql);
-$query->bindParam(':name',$name,PDO::PARAM_STR);
-$query->bindParam(':mobileno',$mobileno,PDO::PARAM_STR);
-$query->bindParam(':email',$email,PDO::PARAM_STR);
-$query->execute();
-$msg="Profile Updated Successfully";
+$sql="UPDATE tbl_user SET fullname='$fullname',mobile='$mobile' where email='$email'";
+$query=mysqli_query($con,$sql);
+if ($query) {
+	$msg="Profile Updated Successfully";
+}else{
+	$error="Profile Not updated!!";
+}
+
 }
 
 ?>
@@ -85,40 +86,37 @@ $msg="Profile Updated Successfully";
 				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 
 <?php 
-$useremail=$_SESSION['login'];
-$sql = "SELECT * from tblusers where EmailId=:useremail";
-$query = $dbh -> prepare($sql);
-$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{	?>
+$email=$_SESSION['login'];
+$sql = "SELECT * from tbl_user where email='$email'";
+$query=mysqli_query($con,$sql);
+$num=mysqli_num_rows($query);
+if ($num>0) {
+	while ($result=mysqli_fetch_array($query)) {
+		# code...
+?>
 
 	<p style="width: 350px;">
 		
-			<b>Name</b>  <input type="text" name="name" value="<?php echo htmlentities($result->FullName);?>" class="form-control" id="name" required="">
+			<b>Name</b>  <input type="text" name="fullname" value="<?php echo htmlentities($result['fullname']);?>" class="form-control" id="name" required="">
 	</p> 
 
 <p style="width: 350px;">
 <b>Mobile Number</b>
-<input type="text" class="form-control" name="mobileno" maxlength="10" value="<?php echo htmlentities($result->MobileNumber);?>" id="mobileno"  required="">
+<input type="text" class="form-control" name="mobile" maxlength="11" value="<?php echo htmlentities($result['mobile']);?>" id="mobileno"  required="">
 </p>
 
 <p style="width: 350px;">
 <b>Email Id</b>
-	<input type="email" class="form-control" name="email" value="<?php echo htmlentities($result->EmailId);?>" id="email" readonly>
+	<input type="email" class="form-control" name="email" value="<?php echo htmlentities($result['email']);?>" id="email" readonly>
 			</p>
 <p style="width: 350px;">
 <b>Last Updation Date : </b>
-<?php echo htmlentities($result->UpdationDate);?>
+<?php echo htmlentities($result['upda']);?>
 </p>
 
 <p style="width: 350px;">	
 <b>Reg Date :</b>
-<?php echo htmlentities($result->RegDate);?>
+<?php echo htmlentities($result['regdate']);?>
 			</p>
 <?php }} ?>
 
