@@ -44,34 +44,35 @@ include('includes/config.php');
 			<h3>Package List</h3>
 
 					
-<?php $sql = "SELECT * from tbltourpackages";
-$query = $dbh->prepare($sql);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{	?>
+					
+<?php 
+$sql="SELECT * FROM tbl_tourpackage";
+$query=mysqli_query($con,$sql);
+$num=mysqli_num_rows($query);
+if ($num>0) {
+	while ($result=mysqli_fetch_array($query)) {
+	
+
+
+	?>
 			<div class="rom-btm">
 				<div class="col-md-3 room-left wow fadeInLeft animated" data-wow-delay=".5s">
-					<img src="admin/pacakgeimages/<?php echo htmlentities($result->PackageImage);?>" class="img-responsive" alt="">
+					<img src="images/<?php echo htmlentities($result['packageimage']);?>" class="img-responsive" alt="">
 				</div>
 				<div class="col-md-6 room-midle wow fadeInUp animated" data-wow-delay=".5s">
-					<h4>Package Name: <?php echo htmlentities($result->PackageName);?></h4>
-					<h6>Package Type : <?php echo htmlentities($result->PackageType);?></h6>
-					<p><b>Package Location :</b> <?php echo htmlentities($result->PackageLocation);?></p>
-					<p><b>Features</b> <?php echo htmlentities($result->PackageFetures);?></p>
+					<h4>Package Name: <?php echo htmlentities($result['packagename']);?></h4>
+					<h6>Package Type : <?php echo htmlentities($result['packagetype']);?></h6>
+					<p><b>Package Location :</b> <?php echo htmlentities($result['packagelocation']);?></p>
+					<p><b>Features</b> <?php echo htmlentities($result['packagefetures']);?></p>
 				</div>
 				<div class="col-md-3 room-right wow fadeInRight animated" data-wow-delay=".5s">
-					<h5>USD <?php echo htmlentities($result->PackagePrice);?></h5>
-					<a href="package-details.php?pkgid=<?php echo htmlentities($result->PackageId);?>" class="view">Details</a>
+					<h5>USD <?php echo htmlentities($result['pakageprice']);?></h5>
+					<a href="package-details.php?pkgid=<?php echo htmlentities($result['id']);?>" class="view">Details</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
 
 <?php }} ?>
-			
 		
 		
 		</div>

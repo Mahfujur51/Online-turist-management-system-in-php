@@ -94,29 +94,26 @@ $error="Something went wrong. Please try again";
 		  <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 <?php 
-$pid=intval($_GET['pkgid']);
-$sql = "SELECT * from tbltourpackages where PackageId=:pid";
-$query = $dbh->prepare($sql);
-$query -> bindParam(':pid', $pid, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{	?>
+$id=intval($_GET['pkgid']);
+$sql = "SELECT * FROM tbl_tourpackage where id='$id'";
+$query=mysqli_query($con,$sql);
+$num=mysqli_num_rows($query);
+if ($num>0) {
+	while ($result=mysqli_fetch_array($query)) {
+		# code...
+?>
 
 <form name="book" method="post">
 		<div class="selectroom_top">
 			<div class="col-md-4 selectroom_left wow fadeInLeft animated" data-wow-delay=".5s">
-				<img src="admin/pacakgeimages/<?php echo htmlentities($result->PackageImage);?>" class="img-responsive" alt="">
+				<img src="images/<?php echo htmlentities($result['packageimage']);?>" class="img-responsive" alt="">
 			</div>
 			<div class="col-md-8 selectroom_right wow fadeInRight animated" data-wow-delay=".5s">
-				<h2><?php echo htmlentities($result->PackageName);?></h2>
-				<p class="dow">#PKG-<?php echo htmlentities($result->PackageId);?></p>
-				<p><b>Package Type :</b> <?php echo htmlentities($result->PackageType);?></p>
-				<p><b>Package Location :</b> <?php echo htmlentities($result->PackageLocation);?></p>
-					<p><b>Features</b> <?php echo htmlentities($result->PackageFetures);?></p>
+				<h2><?php echo htmlentities($result['packagename']);?></h2>
+				<p class="dow">#PKG-<?php echo htmlentities($result['id']);?></p>
+				<p><b>Package Type :</b> <?php echo htmlentities($result['packagetype']);?></p>
+				<p><b>Package Location :</b> <?php echo htmlentities($result['packagelocation']);?></p>
+					<p><b>Features</b> <?php echo htmlentities($result['packagefetures']);?></p>
 					<div class="ban-bottom">
 				<div class="bnr-right">
 				<label class="inputLabel">From</label>
@@ -134,7 +131,7 @@ foreach($results as $result)
 				</div>
 			</div>
 		<h3>Package Details</h3>
-				<p style="padding-top: 1%"><?php echo htmlentities($result->PackageDetails);?> </p>	
+				<p style="padding-top: 1%"><?php echo htmlentities($result['packagedetails']);?> </p>	
 				<div class="clearfix"></div>
 		</div>
 		<div class="selectroom_top">
