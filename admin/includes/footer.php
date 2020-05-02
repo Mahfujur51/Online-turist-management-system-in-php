@@ -1,3 +1,3 @@
 <div class="copyrights">
-	 <p>© 2016 TMS. All Rights Reserved |  <a href="#">TMS</a> </p>
+	 <p>© <?php echo Date("Y"); ?> Online Tour Management System. All Rights Reserved |  <a href="#">Online_tms</a> </p>
 </div>	

@@ -12,7 +12,7 @@
 												<span class="prfil-img"><img src="images/User-icon.png" alt=""> </span> 
 												<div class="user-name">
 													<p>Welcome</p>
-													<span>Administrator</span>
+													<span><?php echo $_SESSION['alogin']; ?></span>
 												</div>
 												<i class="fa fa-angle-down"></i>
 												<i class="fa fa-angle-up"></i>
