@@ -82,27 +82,25 @@ else{
 </tr>
 <?php 
 
-$uemail=$_SESSION['login'];;
-$sql = "SELECT * from tblissues where UserEmail=:uemail";
-$query = $dbh->prepare($sql);
-$query -> bindParam(':uemail', $uemail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{	?>
+$useremail=$_SESSION['login'];;
+$sql = "SELECT * FROM tbl_issu where useremail='$useremail'";
+$query=mysqli_query($con,$sql);
+$num=mysqli_num_rows($query);
+if ($num>0) {
+	$cont=1;
+	while ($result=mysqli_fetch_array($query)) {
+
+	?>
 <tr align="center">
-<td ><?php echo htmlentities($cnt);?></td>
-<td width="100">#TKT-<?php echo htmlentities($result->id);?></td>
-<td><?php echo htmlentities($result->Issue);?></td>
-<td width="300"><?php echo htmlentities($result->Description);?></td>
-<td><?php echo htmlentities($result->AdminRemark);?></td>
-<td width="100"><?php echo htmlentities($result->PostingDate);?></td>
-<td width="100"><?php echo htmlentities($result->AdminremarkDate);?></td>
+<td ><?php echo htmlentities($cont);?></td>
+<td width="100">#TKT-<?php echo htmlentities($result['id']);?></td>
+<td><?php echo htmlentities($result['issue']);?></td>
+<td width="300"><?php echo htmlentities($result['description']);?></td>
+<td><?php echo htmlentities($result['adminremark']);?></td>
+<td width="100"><?php echo htmlentities($result['postingdate']);?></td>
+<td width="100"><?php echo htmlentities($result['remarkdate']);?></td>
 </tr>
-<?php $cnt=$cnt+1; }} ?>
+<?php $cont++; }} ?>
 	</table>
 		
 			</p>
