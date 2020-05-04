@@ -114,7 +114,7 @@ popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status
 				</div>
 <!--heder end here-->
 <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Manage Issues</li>
+                <li class="breadcrumb-item"><a href="dashboard.php">Home</a><i class="fa fa-angle-right"></i>Manage Issues</li>
             </ol>
 <div class="agile-grids">	
 				<!-- tables -->
@@ -138,32 +138,34 @@ popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status
 						  </tr>
 						</thead>
 						<tbody>
-<?php $sql = "SELECT tblissues.id as id,tblusers.FullName as fname,tblusers.MobileNumber as mnumber,tblusers.EmailId as email,tblissues.Issue as issue,tblissues.Description as Description,tblissues.PostingDate as PostingDate from tblissues join tblusers on tblusers.EmailId=tblissues.UserEmail";
-$query = $dbh -> prepare($sql);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{				?>		
+<?php
+    $sql="SELECT tbl_issu.id as id,tbl_user.fullname as fname,tbl_user.mobile as mnumber,tbl_user.email as email,tbl_issu.issue as issu,tbl_issu.description as des,tbl_issu.postingdate as posdate FROM tbl_issu JOIN tbl_user on tbl_user.email=tbl_issu.useremail";
+    $query=mysqli_query($con,$sql);
+    $num=mysqli_num_rows($query);
+    if($num>0){
+    	$cont=1;
+    	while ($result=mysqli_fetch_array($query)) {
+    		# code...
+			?>		
 						  <tr>
-							<td width="120">#00<?php echo htmlentities($result->id);?></td>
-							<td width="50"><?php echo htmlentities($result->fname);?></td>
-								<td width="50"><?php echo htmlentities($result->mnumber);?></td>
-							<td width="50"><?php echo htmlentities($result->email);?></td>
+							<td width="120">#00<?php echo htmlentities($result['id']);?></td>
+							<td width="50"><?php echo htmlentities($result['fname']);?></td>
+								<td width="50"><?php echo htmlentities($result['mnumber']);?></td>
+							<td width="50"><?php echo htmlentities($result['email']);?></td>
 						
-							<td width="200"><?php echo htmlentities($result->issue);?></a></td>
-							<td width="400"><?php echo htmlentities($result->Description);?></td>
+							<td width="200"><?php echo htmlentities($result['issu']);?></a></td>
+							<td width="400"><?php echo htmlentities($result['des']);?></td>
 							
-								<td width="50"><?php echo htmlentities($result->PostingDate);?></td>
+								<td width="50"><?php echo htmlentities($result['posdate']);?></td>
 			
 
-<td><a href="javascript:void(0);" onClick="popUpWindow('updateissue.php?iid=<?php echo ($result->id);?>');">View </a>
+<td><a href="javascript:void(0);" onClick="popUpWindow('updateissue.php?iid=<?php echo ($result['id']);?>');">View </a>
 </td>
 
 </tr>
-						 <?php } }?>
+						 <?php
+						 $cont++;
+						  } }?>
 						</tbody>
 					  </table>
 					</div>
